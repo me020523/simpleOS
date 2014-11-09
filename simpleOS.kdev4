@@ -1,0 +1,4 @@
+[Project]
+Name=simpleOS
+Manager=KDevCustomMakeManager
+VersionControl=kdevgit
