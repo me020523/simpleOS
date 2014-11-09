@@ -1,9 +1,11 @@
-CC=gcc
-CFLAGS="-Wall"
+all: bootloader.o proc.o
 
-debug:clean
-	$(CC) $(CFLAGS) -g -o simpleos main.c
-stable:clean
-	$(CC) $(CFLAGS) -o simpleos main.c
+bootloader.o: bootloader/bootloader.S
+	nasm -f bin bootloader/bootloader.S -o bootloader.o
+proc.o: bootloader/proc.S
+	nasm -f bin bootloader/proc.S -o proc.o
 clean:
-	rm -vfr *~ simpleos
+	rm *.o
+install:
+	dd if=bootloader.o of=simpleOS.img bs=512 count=1 conv=notrunc
+	dd if=proc.o of=simpleOS.img bs=512 seek=1 count=1 conv=notrunc
